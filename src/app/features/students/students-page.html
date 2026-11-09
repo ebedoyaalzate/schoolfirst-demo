@@ -1,0 +1,52 @@
+<header class="topbar">
+  <h1>Estudiantes</h1>
+  <div class="session">
+    <span>Hola, {{ auth.user()?.name }} · ★ {{ favorites.count() }}</span>
+    <button type="button" (click)="auth.logout()">Salir</button>
+  </div>
+</header>
+
+<label for="search">Buscar estudiante</label>
+<input id="search" data-cy="search" type="search" [formControl]="search" placeholder="Ej: Ana" autocomplete="off" />
+
+<p class="summary" aria-live="polite">
+  @if (loading()) {
+    Cargando…
+  } @else {
+    {{ students().length }} resultados · promedio del grupo {{ classAverage() }}
+  }
+</p>
+
+@if (error(); as message) {
+  <p role="alert" class="error">{{ message }}</p>
+}
+
+<div class="layout">
+  <ul class="list" data-cy="student-list">
+    <!-- track por id: Angular reutiliza los nodos del DOM en vez de recrearlos -->
+    @for (s of students(); track s.id) {
+      <li>
+        <app-student-card
+          [student]="s"
+          [selected]="s.id === selected()?.id"
+          [favorite]="favorites.isFavorite(s.id)"
+          (select)="onSelect($event)"
+          (toggleFavorite)="favorites.toggle($event)"
+        />
+      </li>
+    } @empty {
+      @if (!loading()) {
+        <li class="empty">No hay estudiantes con ese nombre.</li>
+      }
+    }
+  </ul>
+
+  <!-- @defer: el detalle se descarga en un chunk aparte, solo cuando hace falta -->
+  @if (selected(); as student) {
+    @defer (on immediate) {
+      <app-student-detail [student]="student" (close)="onClose()" />
+    } @placeholder (minimum 200ms) {
+      <p>Preparando detalle…</p>
+    }
+  }
+</div>
