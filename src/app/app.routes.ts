@@ -19,5 +19,9 @@ export const routes: Routes = [
     providers: [provideState(studentsFeature), provideEffects(studentsEffects)],
     loadComponent: () => import('./features/students/students-page').then(m => m.StudentsPage),
   },
+  {
+    path: 'exercises',
+    loadComponent: () => import('./features/exercises/exercises-page').then(m => m.ExercisesPage),
+  },
   { path: '**', redirectTo: 'students' },
 ];

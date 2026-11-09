@@ -1,0 +1,46 @@
+<section class="exercise">
+  <h2>Formulario reactivo</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label for="fullName">Nombre completo</label>
+    <input id="fullName" data-cy="fullName" formControlName="fullName"
+           [attr.aria-invalid]="hasError('fullName', 'required') || hasError('fullName', 'maxlength')" />
+    <small class="counter">{{ form.controls.fullName.value.length }}/{{ maxName }}</small>
+    @if (hasError('fullName', 'required')) {
+      <small class="field-error">El nombre es obligatorio.</small>
+    }
+    @if (hasError('fullName', 'maxlength')) {
+      <small class="field-error">Máximo {{ maxName }} caracteres.</small>
+    }
+
+    <fieldset>
+      <legend>Estado</legend>
+      <label class="radio">
+        <input type="radio" data-cy="status-true" formControlName="status" [value]="true" /> True
+      </label>
+      <label class="radio">
+        <input type="radio" data-cy="status-false" formControlName="status" [value]="false" /> False
+      </label>
+    </fieldset>
+    @if (hasError('status', 'required')) {
+      <small class="field-error">Selecciona una opción.</small>
+    }
+
+    @if (showReason) {
+      <label for="reason">Motivo</label>
+      <textarea id="reason" data-cy="reason" formControlName="reason" rows="3"></textarea>
+      @if (hasError('reason', 'required')) {
+        <small class="field-error">El motivo es obligatorio cuando el estado es False.</small>
+      }
+      @if (hasError('reason', 'minlength')) {
+        <small class="field-error">Mínimo 5 caracteres.</small>
+      }
+    }
+
+    <button type="submit" data-cy="submit">Enviar</button>
+  </form>
+
+  @if (submitted(); as value) {
+    <pre data-cy="result">{{ value | json }}</pre>
+  }
+</section>

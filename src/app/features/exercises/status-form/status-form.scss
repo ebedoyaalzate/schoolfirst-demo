@@ -1,0 +1,6 @@
+form { display: grid; gap: .5rem; max-width: 360px; }
+fieldset { border: 1px solid #d0d5dd; border-radius: 8px; display: flex; gap: 1rem; }
+.radio { display: flex; align-items: center; gap: .25rem; }
+.counter { color: #475467; justify-self: end; }
+.field-error { color: #b42318; }
+pre { background: #f2f4f7; padding: .75rem; border-radius: 8px; }
