@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Palindrome } from './palindrome/palindrome';
 import { StatusForm } from './status-form/status-form';
 
-/** Página pública (/exercises) que agrupa los ejercicios aislados. */
+/** Página pública (/exercises) para el ejercicio de formulario reactivo. Los de JS puro están en /js-exercises. */
 @Component({
   selector: 'app-exercises-page',
-  imports: [StatusForm, Palindrome],
+  imports: [StatusForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <main class="exercises">
       <h1>Ejercicios</h1>
       <app-status-form />
-      <app-palindrome />
     </main>
   `,
   styles: `
